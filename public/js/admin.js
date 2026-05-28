@@ -1,7 +1,5 @@
 // admin.js — Beheer van beats en bestellingen in het adminpaneel
 
-/* global getOrders, updateCartBadge */
-
 // Standaard beats die worden gebruikt als er niets in localStorage staat
 const DEFAULT_BEATS = [
     {
