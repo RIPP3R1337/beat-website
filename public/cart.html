@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winkelwagen</title>
+    <link rel="stylesheet" href="css/output.css">
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <nav class="bg-gray-900 text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a class="flex items-center space-x-2" href="index.html">
+                    <span class="text-2xl">🎵</span>
+                    <span class="font-bold text-xl">BeatStore</span>
+                </a>
+                <div class="flex items-center space-x-6">
+                    <a class="flex items-center gap-1 hover:text-blue-400 transition-colors" href="./index.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-music-note" viewBox="0 0 16 16">
+                            <path d="M9 13c0 1.105-1.12 2-2.5 2S4 14.105 4 13s1.12-2 2.5-2 2.5.895 2.5 2" />
+                            <path fill-rule="evenodd" d="M9 3v10H8V3z" />
+                            <path d="M8 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 13 2.22V4L8 5z" />
+                        </svg>
+                        <span>Beats</span>
+                    </a>
+                    <a class="flex items-center space-x-2 hover:text-blue-400 transition-colors" href="cart.html">
+                        <span class="relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-shopping-cart w-5 h-5">
+                                <circle cx="8" cy="21" r="1"></circle>
+                                <circle cx="19" cy="21" r="1"></circle>
+                                <path
+                                    d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12">
+                                </path>
+                            </svg>
+                            <span id="cart-badge"
+                                class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center"></span>
+                        </span>
+                        <span>Winkelwagen</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <main id="cart-container" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Lege winkelwagen -->
+        <div id="cart-empty" class="flex flex-col items-center justify-center py-16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="text-gray-300 mb-4">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                <path d="M3 6h18"></path>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Je winkelwagen is leeg</h2>
+            <p class="text-gray-600 mb-6">Voeg beats toe om te starten!</p>
+            <a href="index.html"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors">Browse beats</a>
+        </div>
+
+
+        <!-- Dankjewel voor je bestelling -->
+
+        <div id="cart-purchase" class="hidden flex flex-col items-center justify-center py-16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" fill="currentColor"
+                class="bi bi-check-circle text-gray-300 mb-4" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                <path
+                    d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+            </svg>
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">Bedankt voor je bestelling!</h1>
+        </div>
+
+        <!-- Gevulde winkelwagen -->
+        <div id="cart-content" class="hidden">
+            <h1 class="text-4xl font-bold text-gray-900 mb-8">Winkelwagen</h1>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 space-y-4" id="cart-items"></div>
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">Samenvatting</h2>
+                        <div class="border-t pt-4 mb-6">
+                            <div class="flex justify-between text-xl font-bold text-gray-900">
+                                <span>Totaal</span>
+                                <span id="cart-total">$0.00</span>
+                            </div>
+                        </div>
+                        <button id="checkout-btn"
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition-colors">
+                            Transactie voltooien
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <script src="../src/js/storage.js"></script>
+    <script src="../src/js/cart.js"></script>
+</body>
+
+</html>

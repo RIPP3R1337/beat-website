@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <link rel="stylesheet" href="css/output.css">
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <nav class="bg-gray-900 text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a class="flex items-center space-x-2" href="index.html">
+                    <span class="text-2xl">🎵</span>
+                    <span class="font-bold text-xl">BeatStore</span>
+                </a>
+                <div class="flex items-center space-x-6">
+                    <a class="flex items-center gap-1 hover:text-blue-400 transition-colors" href="./index.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-music-note" viewBox="0 0 16 16">
+                            <path d="M9 13c0 1.105-1.12 2-2.5 2S4 14.105 4 13s1.12-2 2.5-2 2.5.895 2.5 2" />
+                            <path fill-rule="evenodd" d="M9 3v10H8V3z" />
+                            <path d="M8 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 13 2.22V4L8 5z" />
+                        </svg>
+                        <span>Beats</span>
+                    </a>
+                    <a class="flex items-center space-x-2 hover:text-blue-400 transition-colors" href="./cart.html">
+                        <span class="relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-shopping-cart w-5 h-5"
+                                data-fg-bsgv12="1.25:5.178:/src/app/pages/Root.tsx:29:15:1031:36:e:ShoppingCart::::::BPYc"
+                                data-fgid-bsgv12=":re:">
+                                <circle cx="8" cy="21" r="1"></circle>
+                                <circle cx="19" cy="21" r="1"></circle>
+                                <path
+                                    d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12">
+                                </path>
+                            </svg>
+                            <span id="cart-badge"
+                                class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center"></span>
+                        </span>
+                        <span>Winkelwagen</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- beat sectie -->
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div>
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">Premium Beats</h1>
+                <p class="text-gray-600 mb-6">Discover high-quality beats for your next project</p>
+                <div id="genre-filters" class="flex flex-wrap gap-2">
+                    <button
+                        class="genre-btn active bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-medium transition-colors"
+                        data-genre="all">All</button>
+                    <button
+                        class="genre-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-1.5 rounded-full text-sm font-medium transition-colors"
+                        data-genre="Trap">Trap</button>
+                    <button
+                        class="genre-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-1.5 rounded-full text-sm font-medium transition-colors"
+                        data-genre="Hip Hop">Hip Hop</button>
+                    <button
+                        class="genre-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-1.5 rounded-full text-sm font-medium transition-colors"
+                        data-genre="R&B">R&B</button>
+                    <button
+                        class="genre-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-1.5 rounded-full text-sm font-medium transition-colors"
+                        data-genre="EDM">EDM</button>
+                    <button
+                        class="genre-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-1.5 rounded-full text-sm font-medium transition-colors"
+                        data-genre="Drill">Drill</button>
+                </div>
+            </div>
+        </div>
+        <div id="beats-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Beats worden dynamisch geladen vanuit beats.json -->
+        </div>
+        </div>
+    </main>
+
+    <script src="../src/js/storage.js"></script>
+    <script src="../src/js/products.js"></script>
+</body>
+
+</html>
