@@ -1,5 +1,7 @@
 // admin.js — Beheer van beats en bestellingen in het adminpaneel
 
+/* global getOrders, updateCartBadge */
+
 // Standaard beats die worden gebruikt als er niets in localStorage staat
 const DEFAULT_BEATS = [
     {
@@ -12,8 +14,8 @@ const DEFAULT_BEATS = [
         licenses: [
             { type: "Basic", format: "MP3", price: 29.99 },
             { type: "Premium", format: "WAV", price: 49.99 },
-            { type: "Exclusive", format: "WAV + Stems", price: 149.99 }
-        ]
+            { type: "Exclusive", format: "WAV + Stems", price: 149.99 },
+        ],
     },
     {
         id: 2,
@@ -25,8 +27,8 @@ const DEFAULT_BEATS = [
         licenses: [
             { type: "Basic", format: "MP3", price: 39.99 },
             { type: "Premium", format: "WAV", price: 59.99 },
-            { type: "Exclusive", format: "WAV + Stems", price: 179.99 }
-        ]
+            { type: "Exclusive", format: "WAV + Stems", price: 179.99 },
+        ],
     },
     {
         id: 3,
@@ -38,8 +40,8 @@ const DEFAULT_BEATS = [
         licenses: [
             { type: "Basic", format: "MP3", price: 24.99 },
             { type: "Premium", format: "WAV", price: 44.99 },
-            { type: "Exclusive", format: "WAV + Stems", price: 129.99 }
-        ]
+            { type: "Exclusive", format: "WAV + Stems", price: 129.99 },
+        ],
     },
     {
         id: 4,
@@ -51,8 +53,8 @@ const DEFAULT_BEATS = [
         licenses: [
             { type: "Basic", format: "MP3", price: 49.99 },
             { type: "Premium", format: "WAV", price: 79.99 },
-            { type: "Exclusive", format: "WAV + Stems", price: 199.99 }
-        ]
+            { type: "Exclusive", format: "WAV + Stems", price: 199.99 },
+        ],
     },
     {
         id: 5,
@@ -64,9 +66,9 @@ const DEFAULT_BEATS = [
         licenses: [
             { type: "Basic", format: "MP3", price: 34.99 },
             { type: "Premium", format: "WAV", price: 54.99 },
-            { type: "Exclusive", format: "WAV + Stems", price: 159.99 }
-        ]
-    }
+            { type: "Exclusive", format: "WAV + Stems", price: 159.99 },
+        ],
+    },
 ];
 
 const STORAGE_KEY = 'admin_beats';
@@ -82,14 +84,19 @@ function saveBeats(beats) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(beats));
 }
 
+const EDIT_SVG_PATH = 'M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0'
+    + '-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z';
+
 // Render de beats-tabel in het adminpaneel
 function renderBeats(beats) {
     const tbody = document.getElementById('beats-tbody');
     tbody.innerHTML = beats.map(beat => {
         const basicPrice = beat.licenses.find(l => l.type === 'Basic');
         const price = basicPrice ? basicPrice.price.toFixed(2) : '0.00';
+        const safeImg = escapeHtml(beat.image);
+        const safeTitle = escapeHtml(beat.title);
         const img = beat.image
-            ? `<img src="${escapeHtml(beat.image)}" alt="${escapeHtml(beat.title)}" class="w-10 h-10 rounded object-cover">`
+            ? `<img src="${safeImg}" alt="${safeTitle}" class="w-10 h-10 rounded object-cover">`
             : `<div class="w-10 h-10 rounded bg-gray-200 flex items-center justify-center text-gray-400">🎵</div>`;
         return `
     <tr>
@@ -112,7 +119,7 @@ function renderBeats(beats) {
             <button class="text-blue-600 hover:text-blue-800 flex items-center space-x-1" data-edit-id="${beat.id}">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path>
+                <path d="${EDIT_SVG_PATH}"></path>
             </svg>
             <span>Bewerk</span>
             </button>
@@ -180,7 +187,8 @@ function renderOrders() {
     const orders = getOrders();
     const container = document.getElementById('orders-container');
     if (orders.length === 0) {
-        container.innerHTML = '<div class="bg-white rounded-lg shadow-md p-8 text-center"><p class="text-gray-500">Nog geen bestellingen</p></div>';
+        container.innerHTML = '<div class="bg-white rounded-lg shadow-md p-8 text-center">'
+            + '<p class="text-gray-500">Nog geen bestellingen</p></div>';
         return;
     }
     container.innerHTML = [...orders].reverse().map(order => `
@@ -231,11 +239,13 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Vul alle verplichte velden in (titel, producer, genre).');
             return;
         }
-        if (isNaN(bpm) || bpm <= 0) {
+        if (Number.isNaN(bpm) || bpm <= 0) {
             alert('Vul een geldig BPM in (groter dan 0).');
             return;
         }
-        if (isNaN(priceBasic) || isNaN(pricePremium) || isNaN(priceExclusive) || priceBasic <= 0 || pricePremium <= 0 || priceExclusive <= 0) {
+        if (Number.isNaN(priceBasic) || Number.isNaN(pricePremium)
+            || Number.isNaN(priceExclusive)
+            || priceBasic <= 0 || pricePremium <= 0 || priceExclusive <= 0) {
             alert('Vul geldige prijzen in voor alle licenties (groter dan 0).');
             return;
         }
