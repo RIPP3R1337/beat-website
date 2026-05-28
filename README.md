@@ -27,7 +27,7 @@ Beat Store is een full-client webapplicatie gebouwd met vanilla JavaScript en Ta
 
 **Technieken gebruikt:**
 - Vanilla JavaScript
-- Tailwind CSS v3 (CLI)
+- Tailwind CSS v4 (CLI)
 - localStorage
 - JSON als databron
 

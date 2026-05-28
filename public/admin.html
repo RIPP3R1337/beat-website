@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 
 <head>
     <meta charset="UTF-8">
@@ -117,49 +117,49 @@
                     <form id="form-new-beat" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <input type="hidden" id="beat-edit-id">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Titel</label>
+                            <label for="beat-title" class="block text-sm font-medium text-gray-700 mb-1">Titel</label>
                             <input type="text" id="beat-title" required
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
                                 placeholder="Beat titel">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Producer</label>
+                            <label for="beat-producer" class="block text-sm font-medium text-gray-700 mb-1">Producer</label>
                             <input type="text" id="beat-producer" required
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
                                 placeholder="Producer naam">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">BPM</label>
+                            <label for="beat-bpm" class="block text-sm font-medium text-gray-700 mb-1">BPM</label>
                             <input type="number" id="beat-bpm" required min="40" max="300"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
                                 placeholder="120">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Genre</label>
+                            <label for="beat-genre" class="block text-sm font-medium text-gray-700 mb-1">Genre</label>
                             <input type="text" id="beat-genre" required
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
                                 placeholder="Trap, Hip Hop, EDM...">
                         </div>
                         <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Afbeelding URL</label>
+                            <label for="beat-image" class="block text-sm font-medium text-gray-700 mb-1">Afbeelding URL</label>
                             <input type="url" id="beat-image"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
                                 placeholder="https://...">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Basic prijs (MP3) $</label>
+                            <label for="beat-price-basic" class="block text-sm font-medium text-gray-700 mb-1">Basic prijs (MP3) $</label>
                             <input type="number" id="beat-price-basic" required min="0" step="0.01"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
                                 placeholder="29.99">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Premium prijs (WAV) $</label>
+                            <label for="beat-price-premium" class="block text-sm font-medium text-gray-700 mb-1">Premium prijs (WAV) $</label>
                             <input type="number" id="beat-price-premium" required min="0" step="0.01"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
                                 placeholder="49.99">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Exclusive prijs (WAV + Stems)
+                            <label for="beat-price-exclusive" class="block text-sm font-medium text-gray-700 mb-1">Exclusive prijs (WAV + Stems)
                                 $</label>
                             <input type="number" id="beat-price-exclusive" required min="0" step="0.01"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
