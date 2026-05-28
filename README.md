@@ -17,17 +17,16 @@ Beat Store is een full-client webapplicatie gebouwd met vanilla JavaScript en Ta
 
 **Functionaliteiten:**
 - Productoverzicht met beats (titel, genre, BPM, prijs)
-- Audiofragmenten beluisteren per beat
-- Winkelwagen beheren (toevoegen, verwijderen, leegmaken)
-- Bestelling plaatsen met bestelbevestiging
+- Filteren op genre
+- Winkelwagen beheren (toevoegen, verwijderen)
+- Bestelling plaatsen met bestelbevestiging op de pagina
 - Admin-paneel: producten toevoegen, wijzigen en verwijderen
-- Admin-paneel: bestellingen bekijken
-- Producten resetten naar originele staat via `beats.json`
-- Formuliervalidatie bij het afrekenen
+- Admin-paneel: bestellingen bekijken met datum en tijd
+- Producten resetten naar de standaard 5 beats
 - Data opgeslagen in `localStorage`
 
 **Technieken gebruikt:**
-- Vanilla JavaScript (ES Modules)
+- Vanilla JavaScript
 - Tailwind CSS v3 (CLI)
 - localStorage
 - JSON als databron
@@ -84,27 +83,22 @@ Dit genereert een geminificeerde `output.css` klaar voor deployment.
 
 ```
 beat-website/
-├── public/
-│   ├── index.html        # Klantenomgeving
-│   ├── cart.html         # Winkelwagen & afrekenen
-│   ├── admin.html        # Adminpaneel
-│   └── assets/
-│       └── images/       # Beat covers
-
-├── src/
-│   ├── data/
-│   │   └── beats.json    # Originele productdata
+├── public/                   # Netlify publish directory
+│   ├── index.html            # Klantenomgeving
+│   ├── cart.html             # Winkelwagen & afrekenen
+│   ├── admin.html            # Adminpaneel
 │   ├── css/
-│   │   └── input.css     # Tailwind directives
-│   └── js/
-│       ├── storage.js        # localStorage logica
-│       ├── products.js       # Producten laden & renderen
-│       ├── cart.js           # Winkelwagen logica
-│       ├── orders.js         # Bestellingen plaatsen & opslaan
-│       ├── admin.js          # Admin CRUD & bestellingen
-│       ├── validation.js     # Formuliervalidatie
-│       └── main.js           # Entrypoint
-├── tailwind.config.js
+│   │   └── output.css        # Gegenereerde Tailwind CSS
+│   ├── js/
+│   │   ├── storage.js        # localStorage logica
+│   │   ├── products.js       # Producten laden & renderen
+│   │   ├── cart.js           # Winkelwagen logica
+│   │   └── admin.js          # Admin CRUD & bestellingen
+│   └── data/
+│       └── beats.json        # Standaard productdata (fallback)
+└── src/
+    └── css/
+        └── input.css         # Tailwind directives (bronbestand)
 ├── package.json
 └── README.md
 ```
