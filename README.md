@@ -36,7 +36,7 @@ Beat Store is een full-client webapplicatie gebouwd met vanilla JavaScript en Ta
 ## Online te vinden
 
 <!-- Vul in na deployment -->
-🔗 [beat-store.netlify.app](https://placeholder.netlify.app)
+🔗 [beat-store.netlify.app]([https://placeholder.netlify.app](https://beat-website-dylan.netlify.app))
 
 ---
 
