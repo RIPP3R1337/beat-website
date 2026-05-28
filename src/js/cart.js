@@ -71,7 +71,8 @@ document.addEventListener('click', (e) => {
     renderCart();
 });
 
-
+// Totaal plaatje van de cart. Na betaling krijg je een "bedankt voor je bestelling"
+//  Vervolgens laat die na 3 seconden een lege winkelmand zien
 document.getElementById('checkout-btn').addEventListener('click', () => {
     const cart = getCart();
     const total = cart.reduce((sum, item) => sum + item.price, 0);

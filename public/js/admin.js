@@ -1,3 +1,6 @@
+// admin.js — Beheer van beats en bestellingen in het adminpaneel
+
+// Standaard beats die worden gebruikt als er niets in localStorage staat
 const DEFAULT_BEATS = [
     {
         id: 1,
@@ -68,15 +71,18 @@ const DEFAULT_BEATS = [
 
 const STORAGE_KEY = 'admin_beats';
 
+// Haal beats op uit localStorage, of gebruik de standaard beats als fallback
 function getBeats() {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : DEFAULT_BEATS.map(b => ({ ...b, licenses: b.licenses.map(l => ({ ...l })) }));
 }
 
+// Sla de beats op in localStorage
 function saveBeats(beats) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(beats));
 }
 
+// Render de beats-tabel in het adminpaneel
 function renderBeats(beats) {
     const tbody = document.getElementById('beats-tbody');
     tbody.innerHTML = beats.map(beat => {
@@ -132,6 +138,7 @@ function escapeHtml(str) {
     return div.innerHTML;
 }
 
+// Verberg en reset het formulier
 function hideForm() {
     document.getElementById('add-beat-form').classList.add('hidden');
     document.getElementById('form-new-beat').reset();
@@ -139,6 +146,7 @@ function hideForm() {
     document.getElementById('form-title').textContent = 'Nieuwe Beat Toevoegen';
 }
 
+// Open het formulier gevuld met de gegevens van een bestaande beat
 function openEditForm(id) {
     const beat = getBeats().find(b => b.id === id);
     if (!beat) return;
@@ -159,6 +167,7 @@ function openEditForm(id) {
     document.getElementById('add-beat-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+// Bereken en toon statistieken (totale omzet en aantal bestellingen)
 function renderStats() {
     const orders = getOrders();
     const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
@@ -166,6 +175,7 @@ function renderStats() {
     document.getElementById('total-orders').textContent = orders.length;
 }
 
+// Render alle bestellingen in het adminpaneel
 function renderOrders() {
     const orders = getOrders();
     const container = document.getElementById('orders-container');
@@ -208,18 +218,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // Nieuwe beat toevoegen of bewerken
     document.getElementById('form-new-beat').addEventListener('submit', (e) => {
         e.preventDefault();
+
+        const title = document.getElementById('beat-title').value.trim();
+        const producer = document.getElementById('beat-producer').value.trim();
+        const bpm = parseInt(document.getElementById('beat-bpm').value, 10);
+        const genre = document.getElementById('beat-genre').value.trim();
+        const priceBasic = parseFloat(document.getElementById('beat-price-basic').value);
+        const pricePremium = parseFloat(document.getElementById('beat-price-premium').value);
+        const priceExclusive = parseFloat(document.getElementById('beat-price-exclusive').value);
+
+        if (!title || !producer || !genre) {
+            alert('Vul alle verplichte velden in (titel, producer, genre).');
+            return;
+        }
+        if (isNaN(bpm) || bpm <= 0) {
+            alert('Vul een geldig BPM in (groter dan 0).');
+            return;
+        }
+        if (isNaN(priceBasic) || isNaN(pricePremium) || isNaN(priceExclusive) || priceBasic <= 0 || pricePremium <= 0 || priceExclusive <= 0) {
+            alert('Vul geldige prijzen in voor alle licenties (groter dan 0).');
+            return;
+        }
+
         const beats = getBeats();
         const editId = document.getElementById('beat-edit-id').value;
         const beatData = {
-            title: document.getElementById('beat-title').value.trim(),
-            producer: document.getElementById('beat-producer').value.trim(),
-            bpm: parseInt(document.getElementById('beat-bpm').value, 10),
-            genre: document.getElementById('beat-genre').value.trim(),
+            title,
+            producer,
+            bpm,
+            genre,
             image: document.getElementById('beat-image').value.trim(),
             licenses: [
-                { type: 'Basic', format: 'MP3', price: parseFloat(document.getElementById('beat-price-basic').value) },
-                { type: 'Premium', format: 'WAV', price: parseFloat(document.getElementById('beat-price-premium').value) },
-                { type: 'Exclusive', format: 'WAV + Stems', price: parseFloat(document.getElementById('beat-price-exclusive').value) }
+                { type: 'Basic', format: 'MP3', price: priceBasic },
+                { type: 'Premium', format: 'WAV', price: pricePremium },
+                { type: 'Exclusive', format: 'WAV + Stems', price: priceExclusive }
             ]
         };
         if (editId) {

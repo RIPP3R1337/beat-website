@@ -40,7 +40,7 @@ function createBeatCard(beat) {
         </div>
     </div>`;
 
-    // Update price display when license changes
+    // Update de prijs verandering als gebruiker de licentie veranderd
     card.querySelector('.license-select').addEventListener('change', (e) => {
         const license = JSON.parse(e.target.value);
         card.querySelector('.beat-price').textContent = `$${license.price.toFixed(2)}`;
@@ -114,7 +114,7 @@ beatsPromise.then(beats => {
         const filtered = activeGenre === 'all' ? beats : beats.filter(b => b.genre === activeGenre);
         renderBeats(filtered);
 
-        // Re-disable buttons for items already in cart
+        // Schakel de knoppen weer uit voor artikelen die al in de winkelwagen zitten.
         getCart().forEach(item => {
             const b = document.querySelector(`.add-to-cart[data-id="${item.id}"]`);
             if (b) disableButton(b);

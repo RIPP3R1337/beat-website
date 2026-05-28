@@ -1,3 +1,6 @@
+// products.js — Beats laden, weergeven en aan winkelwagen toevoegen
+
+// SVG-icoon voor de "Voeg toe" knop
 const cartIconSVG = `
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -6,6 +9,7 @@ const cartIconSVG = `
     <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
 </svg>`;
 
+// Maak een beat-kaart element aan op basis van beat-data
 function createBeatCard(beat) {
     const firstLicense = beat.licenses[0];
     const licenseOptions = beat.licenses
@@ -49,6 +53,7 @@ function createBeatCard(beat) {
     return card;
 }
 
+// Render alle beats in het grid
 function renderBeats(beats) {
     const grid = document.getElementById('beats-grid');
     if (!grid) return;
@@ -56,6 +61,7 @@ function renderBeats(beats) {
     beats.forEach(beat => grid.appendChild(createBeatCard(beat)));
 }
 
+// Zet een knop op inactief als de beat al in de winkelwagen zit
 function disableButton(btn) {
     btn.disabled = true;
     btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');

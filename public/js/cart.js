@@ -1,3 +1,6 @@
+// cart.js — Winkelwagen weergave en interacties
+
+// Render de winkelwagen: toont items, leeg-state of bestelbevestiging
 function renderCart() {
     const cart = getCart();
     const container = document.getElementById('cart-container');
@@ -50,6 +53,7 @@ function renderCart() {
     document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
 }
 
+// Werk het winkelwagen-badge icoontje bij in de navbar
 function updateCartBadge() {
     const cart = getCart();
     const badge = document.getElementById('cart-badge');
@@ -68,6 +72,11 @@ document.addEventListener('click', (e) => {
     const id = parseInt(btn.dataset.id);
     const cart = getCart().filter(item => item.id !== id);
     saveCart(cart);
+    renderCart();
+});
+
+document.getElementById('clear-cart-btn').addEventListener('click', () => {
+    clearCart();
     renderCart();
 });
 
