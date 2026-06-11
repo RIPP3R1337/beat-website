@@ -17,7 +17,7 @@ function createBeatCard(beat) {
         .join('');
 
     const card = document.createElement('div');
-    card.className = 'bg-white rounded-lg shadow-md ove rflow-hidden hover:shadow-xl transition-shadow';
+    card.className = 'bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow';
     card.dataset.beatId = beat.id;
     card.innerHTML = `
     <div class="relative h-48">
