@@ -15,10 +15,6 @@ function clearCart() {
     localStorage.removeItem('cart');
 }
 
-// Controleer of de winkelwagen producten bevat
-function isCartLocked() {
-    return getCart().length > 0;
-}
 
 // Werk het winkelwagen-badge icoontje in de navbar bij
 function updateCartBadge() {
@@ -59,8 +55,10 @@ function addToCart(beatId, beats, license) {
     const beat = beats.find(b => b.id === beatId);
     if (!beat) return;
 
-    // 1 beat per keer. Zo hebben we geen duplicates ongeacht de licentie.
-    const existing = cart.find(item => item.id === beatId);
+    // Voorkom alleen exacte duplicaten van dezelfde beat + licentie.
+    const existing = cart.find(item => item.id === beatId
+        && item.license === license.type
+        && item.format === license.format);
     if (existing) return;
 
     cart.push({
@@ -72,7 +70,8 @@ function addToCart(beatId, beats, license) {
         image: beat.image,
         license: license.type,
         format: license.format,
-        price: license.price
+        price: license.price,
+        cartKey: `${beat.id}|${license.type}|${license.format}`
     });
 
     saveCart(cart);

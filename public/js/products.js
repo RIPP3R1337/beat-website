@@ -17,7 +17,7 @@ function createBeatCard(beat) {
         .join('');
 
     const card = document.createElement('div');
-    card.className = 'bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow';
+    card.className = 'bg-white rounded-lg shadow-md ove rflow-hidden hover:shadow-xl transition-shadow';
     card.dataset.beatId = beat.id;
     card.innerHTML = `
     <div class="relative h-48">
@@ -44,11 +44,35 @@ function createBeatCard(beat) {
         </div>
     </div>`;
 
-    // Update price display when license changes
+    function updateCardButtonState() {
+        const btn = card.querySelector('.add-to-cart');
+        const selectedLicense = JSON.parse(card.querySelector('.license-select').value);
+        const beatId = parseInt(btn.dataset.id, 10);
+
+        const exists = getCart().some(item => item.id === beatId
+            && item.license === selectedLicense.type
+            && item.format === selectedLicense.format);
+
+        btn.disabled = exists;
+        if (exists) {
+            btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            btn.classList.add('bg-gray-400', 'cursor-not-allowed');
+            btn.querySelector('span').textContent = 'In Cart';
+        } else {
+            btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+            btn.querySelector('span').textContent = 'Add to Cart';
+        }
+    }
+
+    // update prijs als licentie wordt gewijzigd
     card.querySelector('.license-select').addEventListener('change', (e) => {
         const license = JSON.parse(e.target.value);
         card.querySelector('.beat-price').textContent = `$${license.price.toFixed(2)}`;
+        updateCardButtonState();
     });
+
+    updateCardButtonState();
 
     return card;
 }
@@ -59,14 +83,6 @@ function renderBeats(beats) {
     if (!grid) return;
     grid.innerHTML = '';
     beats.forEach(beat => grid.appendChild(createBeatCard(beat)));
-}
-
-// Zet een knop op inactief als de beat al in de winkelwagen zit
-function disableButton(btn) {
-    btn.disabled = true;
-    btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-    btn.classList.add('bg-gray-400', 'cursor-not-allowed');
-    btn.querySelector('span').textContent = 'In Cart';
 }
 
 const storedBeats = localStorage.getItem('admin_beats');
@@ -82,12 +98,6 @@ beatsPromise.then(beats => {
     renderBeats(beats);
     updateCartBadge();
 
-    const cart = getCart();
-    cart.forEach(item => {
-        const btn = document.querySelector(`.add-to-cart[data-id="${item.id}"]`);
-        if (btn) disableButton(btn);
-    });
-
     document.getElementById('beats-grid').addEventListener('click', (e) => {
         const btn = e.target.closest('.add-to-cart');
         if (!btn || btn.disabled) return;
@@ -98,7 +108,11 @@ beatsPromise.then(beats => {
 
         addToCart(id, beats, selectedLicense);
         updateCartBadge();
-        disableButton(btn);
+        const selectedCard = btn.closest('[data-beat-id]');
+        if (selectedCard) {
+            const changeEvent = new Event('change');
+            selectedCard.querySelector('.license-select').dispatchEvent(changeEvent);
+        }
     });
 
     // Genre filter
@@ -120,11 +134,7 @@ beatsPromise.then(beats => {
         const filtered = activeGenre === 'all' ? beats : beats.filter(b => b.genre === activeGenre);
         renderBeats(filtered);
 
-        // Re-disable buttons for items already in cart
-        getCart().forEach(item => {
-            const b = document.querySelector(`.add-to-cart[data-id="${item.id}"]`);
-            if (b) disableButton(b);
-        });
+        // Kaarten worden opnieuw gerenderd; createBeatCard zet de juiste knopstatus per licentie.
     });
 })
     .catch(err => console.error('Error loading beats:', err));

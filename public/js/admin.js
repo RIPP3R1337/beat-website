@@ -1,7 +1,5 @@
 // admin.js — Beheer van beats en bestellingen in het adminpaneel
 
-/* global getOrders, updateCartBadge */
-
 // Standaard beats die worden gebruikt als er niets in localStorage staat
 const DEFAULT_BEATS = [
     {
@@ -295,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Reset naar origineel
     document.getElementById('btn-reset').addEventListener('click', () => {
         if (!confirm('Weet je zeker dat je wil resetten naar de originele 5 beats? Alle toegevoegde beats worden verwijderd.')) return;
-        saveBeats(DEFAULT_BEATS.map(b => ({ ...b, licenses: b.licenses.map(l => ({ ...l })) })));
+        saveBeats(DEFAULT_BEATS);
         renderBeats(getBeats());
         hideForm();
     });

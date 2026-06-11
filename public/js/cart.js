@@ -38,7 +38,7 @@ function renderCart() {
             <div class="text-right">
                 <p class="text-xl font-bold text-blue-600">$${item.price.toFixed(2)}</p>
             </div>
-            <button class="remove-item text-red-500 hover:text-red-700 p-2" data-id="${item.id}">
+            <button class="remove-item text-red-500 hover:text-red-700 p-2" data-key="${item.cartKey || `${item.id}|${item.license}|${item.format}`}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 6h18"></path>
@@ -69,8 +69,8 @@ function updateCartBadge() {
 document.addEventListener('click', (e) => {
     const btn = e.target.closest('.remove-item');
     if (!btn) return;
-    const id = parseInt(btn.dataset.id);
-    const cart = getCart().filter(item => item.id !== id);
+    const key = btn.dataset.key;
+    const cart = getCart().filter(item => (item.cartKey || `${item.id}|${item.license}|${item.format}`) !== key);
     saveCart(cart);
     renderCart();
 });
