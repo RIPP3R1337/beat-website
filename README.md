@@ -4,13 +4,6 @@
 
 ---
 
-## Certificaat
-
-<!-- Vul in zodra je het weet -->
-`[ ] Met studiepunten` &nbsp; `[ ] Zonder studiepunten`
-
----
-
 ## Over het project
 
 Beat Store is een full-client webapplicatie gebouwd met vanilla JavaScript en Tailwind CSS. De shop stelt gebruikers in staat om een catalogus van beats te bekijken, beats toe te voegen aan een winkelwagen en een bestelling te plaatsen. Via een apart admin-paneel kunnen producten beheerd worden en bestellingen ingezien worden.
