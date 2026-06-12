@@ -44,7 +44,7 @@ function addOrder(items, total) {
         date: now.toLocaleDateString('nl-NL'),
         time: now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }),
         items: items.map(i => ({ ...i })),
-        total
+        total,
     });
     localStorage.setItem('orders', JSON.stringify(orders));
 }
@@ -71,8 +71,18 @@ function addToCart(beatId, beats, license) {
         license: license.type,
         format: license.format,
         price: license.price,
-        cartKey: `${beat.id}|${license.type}|${license.format}`
+        cartKey: `${beat.id}|${license.type}|${license.format}`,
     });
 
     saveCart(cart);
 }
+
+export {
+    getCart,
+    saveCart,
+    clearCart,
+    updateCartBadge,
+    getOrders,
+    addOrder,
+    addToCart,
+};

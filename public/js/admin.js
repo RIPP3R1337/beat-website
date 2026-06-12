@@ -1,5 +1,10 @@
 // admin.js — Beheer van beats en bestellingen in het adminpaneel
 
+import {
+    getOrders,
+    updateCartBadge,
+} from './storage.js';
+
 // Standaard beats die worden gebruikt als er niets in localStorage staat
 const DEFAULT_BEATS = [
     {
@@ -201,7 +206,9 @@ function renderOrders() {
             <ul class="space-y-1">
                 ${order.items.map(item => `
                     <li class="text-sm text-gray-700 flex justify-between">
-                        <span>${escapeHtml(item.title)} <span class="text-gray-400">— ${escapeHtml(item.license)} (${escapeHtml(item.format)})</span></span>
+                        <span>${escapeHtml(item.title)} 
+                        <span class="text-gray-400">— ${escapeHtml(item.license)} 
+                        (${escapeHtml(item.format)})</span></span>
                         <span class="font-medium">$${item.price.toFixed(2)}</span>
                     </li>`).join('')}
             </ul>
@@ -259,8 +266,8 @@ document.addEventListener('DOMContentLoaded', () => {
             licenses: [
                 { type: 'Basic', format: 'MP3', price: priceBasic },
                 { type: 'Premium', format: 'WAV', price: pricePremium },
-                { type: 'Exclusive', format: 'WAV + Stems', price: priceExclusive }
-            ]
+                { type: 'Exclusive', format: 'WAV + Stems', price: priceExclusive },
+            ],
         };
         if (editId) {
             const index = beats.findIndex(b => b.id === parseInt(editId, 10));
@@ -292,7 +299,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Reset naar origineel
     document.getElementById('btn-reset').addEventListener('click', () => {
-        if (!confirm('Weet je zeker dat je wil resetten naar de originele 5 beats? Alle toegevoegde beats worden verwijderd.')) return;
+        if (!window.confirm(`
+        Weet je zeker dat je wil resetten naar de originele 5 beats? 
+        Alle toegevoegde beats worden verwijderd.`)) return;
         saveBeats(DEFAULT_BEATS);
         renderBeats(getBeats());
         hideForm();

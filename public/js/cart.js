@@ -1,4 +1,10 @@
-// cart.js — Winkelwagen weergave en interacties
+import {
+    getCart,
+    saveCart,
+    clearCart,
+    addOrder,
+    updateCartBadge,
+} from './storage.js';
 
 // Render de winkelwagen: toont items, leeg-state of bestelbevestiging
 function renderCart() {
@@ -38,7 +44,8 @@ function renderCart() {
             <div class="text-right">
                 <p class="text-xl font-bold text-blue-600">$${item.price.toFixed(2)}</p>
             </div>
-            <button class="remove-item text-red-500 hover:text-red-700 p-2" data-key="${item.cartKey || `${item.id}|${item.license}|${item.format}`}">
+            <button class="remove-item text-red-500 hover:text-red-700 p-2"
+            data-key="${item.cartKey || `${item.id}|${item.license}|${item.format}`}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 6h18"></path>
@@ -51,19 +58,6 @@ function renderCart() {
 
     const total = cart.reduce((sum, item) => sum + item.price, 0);
     document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
-}
-
-// Werk het winkelwagen-badge icoontje bij in de navbar
-function updateCartBadge() {
-    const cart = getCart();
-    const badge = document.getElementById('cart-badge');
-    if (!badge) return;
-    if (cart.length > 0) {
-        badge.textContent = cart.length;
-        badge.classList.remove('hidden');
-    } else {
-        badge.classList.add('hidden');
-    }
 }
 
 document.addEventListener('click', (e) => {

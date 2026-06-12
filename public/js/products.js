@@ -1,5 +1,11 @@
 // products.js — Beats laden, weergeven en aan winkelwagen toevoegen
 
+import {
+    getCart,
+    addToCart,
+    updateCartBadge,
+} from "./storage.js";
+
 // SVG-icoon voor de "Voeg toe" knop
 const cartIconSVG = `
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -30,13 +36,15 @@ function createBeatCard(beat) {
             <span>${beat.bpm} BPM</span>
             <span>${beat.genre}</span>
         </div>
-        <select class="license-select w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <select class="license-select w-full border border-gray-300 
+        rounded-lg px-3 py-2 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
             ${licenseOptions}
         </select>
         <div class="flex justify-between items-center">
             <span class="beat-price text-2xl font-bold text-blue-600">$${firstLicense.price.toFixed(2)}</span>
             <button
-                class="add-to-cart bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                class="add-to-cart bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 
+                rounded-lg flex items-center gap-2 transition-colors"
                 data-id="${beat.id}">
                 ${cartIconSVG}
                 <span>Add to Cart</span>
@@ -86,13 +94,11 @@ function renderBeats(beats) {
 }
 
 const storedBeats = localStorage.getItem('admin_beats');
-const beatsPromise = storedBeats
-    ? Promise.resolve(JSON.parse(storedBeats))
-    : fetch('./data/beats.json')
-        .then(response => {
-            if (!response.ok) throw new Error('Could not load beats.json');
-            return response.json();
-        });
+const beatsPromise = storedBeats ? Promise.resolve(JSON.parse(storedBeats)) : fetch('./data/beats.json')
+    .then(response => {
+        if (!response.ok) throw new Error('Could not load beats.json');
+        return response.json();
+    });
 
 beatsPromise.then(beats => {
     renderBeats(beats);
